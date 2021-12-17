@@ -1,9 +1,10 @@
-import './App.css';
+import RepoList from './components/RepoList';
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="text-6xl font-bold underline">Hello React</h1>
+    <div className="flex flex-col items-center">
+      <h1>Github Repositories Searcher</h1>
+      <RepoList />
     </div>
   );
 }

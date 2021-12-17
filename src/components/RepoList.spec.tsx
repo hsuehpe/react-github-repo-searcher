@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import RepoList from './RepoList';
 
 const IntersectionObserverMock: any = function() {
   return {
@@ -10,10 +10,10 @@ const IntersectionObserverMock: any = function() {
 
 global.IntersectionObserver = IntersectionObserverMock;
 
-describe('App', () => {
-  test('render h1', () => {
-    render(<App />);
-    const h1El = screen.getByText(/Github Repositories Searcher/i);
-    expect(h1El).toBeInTheDocument();
+describe('RepoList', () => {
+  test('should render input on screen', () => {
+    render(<RepoList />);
+    const inputEl = screen.getByRole('textbox');
+    expect(inputEl).toBeTruthy();
   });
-});
+})
