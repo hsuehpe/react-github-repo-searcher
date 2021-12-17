@@ -4,32 +4,20 @@ import RepoItem from './RepoItem';
 import useFetchRepos from '../hooks/useFetchRepos';
 import useDebounce from '../hooks/useDebounce';
 import useOnScreen from '../hooks/useOnScreen';
-import { repoItem } from '../types/repoItem';
 
-const INIT_QUERY = 'tailwind'
+const INIT_QUERY = 'tailwind';
 
 export default function RepoList() {
   const sentinelRef = useRef<HTMLElement>(null);
+  const lastRepoRef = useRef<HTMLElement>(null);
   const [query, setQuery] = useState(INIT_QUERY);
-  const [page, setPage] = useState(1);
-  const [repos, setRepos] = useState<repoItem[] | []>([]);
+  const [lastRepoId, setLastRepoId] = useState<string | undefined>('');
   const isElementOnScreen = useOnScreen(sentinelRef);
-  const debounceQuery = useDebounce(query, 500);
-  const { isLoading, items, isQueryChanged } = useFetchRepos(debounceQuery, page);
+  const debounceQuery = useDebounce(query, 200);
+  const { isLoading, repos } = useFetchRepos(debounceQuery, lastRepoId);
 
   useEffect(() => {
-    if (page <= 1 || isQueryChanged) { 
-      setRepos([...items]);
-      setPage(1);
-    }
-    else setRepos((previousRepos) => [...previousRepos, ...items]);
-  }, [items, isQueryChanged, page]);
-
-
-
-  useEffect(() => {
-    if (repos.length === 0) return;
-    if (isElementOnScreen) setPage((previousPage) => previousPage + 1);
+    if (isElementOnScreen && lastRepoRef.current) setLastRepoId(lastRepoRef.current.dataset.id);
   }, [isElementOnScreen]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,10 +29,9 @@ export default function RepoList() {
       <div className="w-[700px]">
         <input type="text" value={query} placeholder="text something" onChange={handleChange} />
         {
-          repos.map((repo, index) => <RepoItem key={index} {...repo}  />)
+          repos.map((repo, index) => (index === repos.length - 1) ? <RepoItem key={index} ref={lastRepoRef} data-id={repos[index].id} {...repo} /> : <RepoItem key={index} {...repo} />)
         }
         <div ref={sentinelRef as React.RefObject<HTMLDivElement>} className="w-full h-[1px]" />
-        {isElementOnScreen && <h3>on screen!</h3>}
         {isLoading && <h3>loading</h3>}
       </div>
     </>
