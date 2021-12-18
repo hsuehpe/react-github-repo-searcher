@@ -22,9 +22,9 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Setup environment variables
-      run: |
-        sed -i "s#REACT_APP_GITHUB_TOKEN_VALUE#${{ secrets.REACT_APP_GITHUB_TOKEN }}#g" .env.production
-        cp .env.production .env
+        run: |
+          sed -i "s#REACT_APP_GITHUB_TOKEN_VALUE#${{ secrets.REACT_APP_GITHUB_TOKEN }}#g" .env.production
+          cp .env.production .env
       - name: Run Unit Test
         run: yarn run test:no-watch
       - name: Run Build
