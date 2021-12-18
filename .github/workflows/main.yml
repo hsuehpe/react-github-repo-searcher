@@ -3,7 +3,7 @@ name: Build and Deploy to Netlify
 on:
   push:
     branches:
-      - main
+      - feature/set-github-token
 
 jobs:
   build-and-deploy:
@@ -25,6 +25,7 @@ jobs:
         run: |
           sed -i "s#REACT_APP_GITHUB_TOKEN_VALUE#${{ secrets.REACT_APP_GITHUB_TOKEN }}#g" .env.production
           cp .env.production .env
+          cat .env
       - name: Run Unit Test
         run: yarn run test:no-watch
       - name: Run Build
