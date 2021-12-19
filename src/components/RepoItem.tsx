@@ -1,7 +1,6 @@
-import { forwardRef } from 'react';
 import { repoItem } from '../types/repoItem';
 
-const RepoItem = forwardRef((item: repoItem, ref?: React.ForwardedRef<any>) => {
+const RepoItem = (item: repoItem) => {
   const { 
     id,
     fullName,
@@ -12,7 +11,7 @@ const RepoItem = forwardRef((item: repoItem, ref?: React.ForwardedRef<any>) => {
   } = item;
 
   return (
-    <div ref={ref} data-id={id} className="repo-item max-w-xl w-full py-4 px-8 bg-white shadow-lg rounded-lg my-10">
+    <div data-id={id} className="max-w-xl w-full py-4 px-8 bg-white shadow-lg rounded-lg my-10">
         <a href={htmlUrl} target="_blank" rel="noreferrer noopener"><h2 className="text-gray-800 text-3xl font-semibold truncate">{ fullName }</h2></a>
         <div className="flex items-center my-4">
           <span className="text-lg">{language}</span>
@@ -26,6 +25,6 @@ const RepoItem = forwardRef((item: repoItem, ref?: React.ForwardedRef<any>) => {
         <p className="mt-2 text-gray-600 truncate">{ description }</p>
       </div>
   );
-});
+};
 
 export default RepoItem;
