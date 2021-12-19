@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
-import { repoItem } from '../types/repoItem'
 import { getRepos } from '../api/search'
 import { cancelRequest } from '../api/search';
 
@@ -11,7 +10,7 @@ export default function useFetchRepos(
   lastRepoId: string | undefined,
 ) {
   const [isLoading, setIsLoading] = useState(false);
-  const [repos, setRepos] = useState<repoItem[] | []>([]);
+  const [repos, setRepos] = useState<any[] | []>([]);
 
   const fetchData = async (p: number, isReset = false) => {
     setIsLoading(true);
@@ -31,7 +30,7 @@ export default function useFetchRepos(
       cancelRequest();
     } else {
       if (isLoading) return;
-      page = 1
+      page = 1;
       fetchData(page, true)
     }
   }, [query]);

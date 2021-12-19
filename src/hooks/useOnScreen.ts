@@ -21,3 +21,4 @@ export default function useOnScreen(ref: RefObject<HTMLElement>): boolean {
 
   return isOnScreen;
 };
+

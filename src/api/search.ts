@@ -12,7 +12,7 @@ export function getRepos(query: string, page: number = 1): AxiosPromise<any> {
     params: {
       q: query,
       sort: 'stars',
-      per_page: 10,
+      per_page: 15,
       page,
     },
   });

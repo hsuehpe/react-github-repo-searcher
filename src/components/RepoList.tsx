@@ -15,6 +15,14 @@ export default function RepoList() {
   const isElementOnScreen = useOnScreen(sentinelRef);
   const debounceQuery = useDebounce(query, 200);
   const { isLoading, repos } = useFetchRepos(debounceQuery, lastRepoId);
+  const repoItems = repos.map((item) => ({
+    id: item.id,
+    fullName: item.full_name,
+    description: item.description,
+    htmlUrl: item.html_url,
+    starCount: item.stargazers_count,
+    language: item.language
+  }))
 
   useEffect(() => {
     if (isElementOnScreen && lastRepoRef.current) setLastRepoId(lastRepoRef.current.dataset.id);
@@ -26,10 +34,10 @@ export default function RepoList() {
   
   return (
     <>
-      <div className="w-[700px]">
+      <div className="w-4/6 flex flex-col items-center" data-testid="list">
         <input type="text" value={query} placeholder="text something" onChange={handleChange} />
         {
-          repos.map((repo, index) => (index === repos.length - 1) ? <RepoItem key={index} ref={lastRepoRef} data-id={repos[index].id} {...repo} /> : <RepoItem key={index} {...repo} />)
+          repoItems.map((repo, index) => (index === repoItems.length - 1) ? <RepoItem key={index} ref={lastRepoRef} data-id={repoItems[index].id} {...repo} /> : <RepoItem key={index} {...repo} />)
         }
         <div ref={sentinelRef as React.RefObject<HTMLDivElement>} className="w-full h-[1px]" />
         {isLoading && <h3>loading</h3>}
