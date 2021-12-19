@@ -6,5 +6,6 @@ export default function useDebounce(value: string, delay: number) {
     let timer = setTimeout(() => setDebounceValue(value), delay);
     return () => clearTimeout(timer);
   }, [value, delay]);
-  return debounceValue
+  return debounceValue;
 };
+

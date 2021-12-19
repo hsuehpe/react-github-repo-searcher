@@ -1,7 +1,8 @@
 export interface repoItem {
   id: number;
-  name: string;
+  fullName: string;
   description: string;
   language: string;
-  stargazers_count: number;
+  starCount: number;
+  htmlUrl: string
 }
