@@ -44,7 +44,7 @@ export default function RepoList() {
   return (
     <>
       <div className="w-4/6 h-full flex flex-col items-center" data-testid="list">
-        <input type="text" value={query} placeholder="text something" onChange={handleChange} />
+        <input className="border border-gray-300 p-2 my-2 rounded-md focus:outline-none focus:ring-2 ring-blue-200" type="text" value={query} placeholder="Search" onChange={handleChange} />
         {
           <List
             height={window.innerHeight - 60}
@@ -58,7 +58,14 @@ export default function RepoList() {
                 if (index === repoItems.length - 1) {
                   return <div style={style} ref={lastRepoRef} data-id={repoItems[index].id}>
                     <RepoItem key={index} {...repoItems[index]} />
-                    {isLoading && <h3>loading</h3>}
+                    {isLoading && <div className="flex justify-center items-center space-x-1 py-2 text-sm text-gray-700">
+                      <svg fill='none' className="w-6 h-6 animate-spin" viewBox="0 0 32 32" xmlns='http://www.w3.org/2000/svg'>
+                        <path clip-rule='evenodd'
+                          d='M15.165 8.53a.5.5 0 01-.404.58A7 7 0 1023 16a.5.5 0 011 0 8 8 0 11-9.416-7.874.5.5 0 01.58.404z'
+                          fill='currentColor' fill-rule='evenodd' />
+                      </svg>
+                    <div>Loading ...</div>
+                  </div>}
                   </div>
                 } else {
                   return <div style={style}><RepoItem key={index} {...repoItems[index]} /></div>
