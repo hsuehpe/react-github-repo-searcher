@@ -11,8 +11,9 @@ export default function RepoList() {
   const observer = useRef<IntersectionObserver>();
   const [query, setQuery] = useState(INIT_QUERY);
   const [lastRepoId, setLastRepoId] = useState<string | undefined>('');
+  const [isNeedReload, setIsNeedReload] = useState(false);
   const debounceQuery = useDebounce(query, 200);
-  const { isLoading, repos, hasMoreRepos } = useFetchRepos(debounceQuery, lastRepoId);
+  const { isLoading, repos, hasMoreRepos, isLoadFail } = useFetchRepos(debounceQuery, lastRepoId, isNeedReload);
   const repoItems = repos.map((item) => ({
     id: item.id,
     fullName: item.full_name,
@@ -30,12 +31,20 @@ export default function RepoList() {
       observer.current.disconnect();
     }
     observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMoreRepos) {
-        setLastRepoId(node.dataset.id);
+      if (entries[0].isIntersecting) {
+        if (hasMoreRepos) {
+          setLastRepoId(node.dataset.id);
+          setIsNeedReload(false);
+        }
+        if (isLoadFail) {
+          setIsNeedReload(true);
+        }
+      } else {
+        setIsNeedReload(false);
       }
-    })
-    if (node) observer.current.observe(node)
-  }, [hasMoreRepos, isLoading]);
+    });
+    if (node) observer.current.observe(node);
+  }, [hasMoreRepos, isLoading, isLoadFail]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -60,9 +69,9 @@ export default function RepoList() {
                     <RepoItem key={index} {...repoItems[index]} />
                     {isLoading && <div className="flex justify-center items-center space-x-1 py-2 text-sm text-gray-700">
                       <svg fill='none' className="w-6 h-6 animate-spin" viewBox="0 0 32 32" xmlns='http://www.w3.org/2000/svg'>
-                        <path clip-rule='evenodd'
+                        <path clipRule='evenodd'
                           d='M15.165 8.53a.5.5 0 01-.404.58A7 7 0 1023 16a.5.5 0 011 0 8 8 0 11-9.416-7.874.5.5 0 01.58.404z'
-                          fill='currentColor' fill-rule='evenodd' />
+                          fill='currentColor' fillRule='evenodd' />
                       </svg>
                     <div>Loading ...</div>
                   </div>}
