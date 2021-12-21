@@ -3,6 +3,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Installation
+1. Create a `.env.local` file in the root directory of your project.
+2. Create GitHub API Access Token (https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+```
+REACT_APP_GITHUB_TOKEN=put your GitHub API Access Token here
+```
 ```
 $ git clone https://github.com/hsuehpe/react-github-repo-searcher.git
 $ yarn
